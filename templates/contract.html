@@ -1,0 +1,361 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contracts - AI Smart Contract</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/contract.css' %}">
+    <script src="{% static 'js/auth-guard.js' %}"></script>
+    <script>requireAuth();</script>
+
+</head>
+<body>
+    <nav class="navbar" style="display:flex; align-items:center; gap:2rem; padding: 1.2rem 2rem; background:#1a1a1a; border-bottom: 1px solid #333;">
+        <div class="navbar-hamburger-card">
+            <button class="navbar-hamburger" id="navbar-hamburger" tabindex="0" aria-label="Open navigation">
+              <span><span></span><span></span><span></span></span>
+            </button>
+        </div>
+        <div style="display:flex;align-items:center;gap:2vw;margin-left:auto;">
+            <div class="navbar-center" id="navbar-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'contract-page' %}" class="active">Contracts</a>
+                <a href="{% url 'community-page' %}">Community</a>
+                <a href="{% url 'market-page' %}">Market</a>
+            </div>
+        </div>
+          <span class="navbar-profile-inline" id="profile-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36" height="36">
+              <circle cx="12" cy="8.5" r="4.5" opacity="0.85" />
+              <path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" opacity="0.65" />
+            </svg>
+          </span>
+
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+                <span class="wallet-address">0x123...aBcD</span>
+            </div>
+            <a href="#" class="dropdown-item">My Posts</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="mode-selector-container">
+        <span class="mode-label" data-mode="conversational">Conversational Mode</span>
+        <label class="switch">
+            <input type="checkbox" id="mode-toggle">
+            <span class="slider"></span>
+        </label>
+        <span class="mode-label" data-mode="protocol_builder">Protocol Builder</span>
+    </div>
+
+    <div id="protocol-builder-form" class="glass-card-form" style="display: none;">
+        <h3 style="text-align: center; margin-top: 0; margin-bottom: 1.5rem; font-weight: 600;">Protocol Builder</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            
+            <select id="protocol-type" class="builder-input">
+                <option value="staking" selected>Staking Protocol</option>
+                <option value="token">ERC-20 Token</option>
+                <option value="vesting">Vesting Contract</option>
+            </select>
+
+            <div id="staking-fields">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <input type="number" id="protocol-apy" class="builder-input" placeholder="Reward APY (%)">
+                    <input type="text" id="staking-token-address" class="builder-input" placeholder="Staking Token Address (e.g., 0x...)">
+                    <input type="text" id="reward-token-address" class="builder-input" placeholder="Reward Token Address (e.g., 0x...)">
+                </div>
+            </div>
+
+            <div id="token-fields" style="display: none;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <input type="text" id="token-name" class="builder-input" placeholder="Token Name (e.g., My Coin)">
+                    <input type="text" id="token-symbol" class="builder-input" placeholder="Token Symbol (e.g., MYC)">
+                    <input type="number" id="initial-supply" class="builder-input" placeholder="Initial Supply (e.g., 1000000)">
+                </div>
+            </div>
+
+            <div id="vesting-fields" style="display: none;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <input type="text" id="vesting-token-address" class="builder-input" placeholder="Token Address to Vest (e.g., 0x...)">
+                    <input type="text" id="beneficiary-address" class="builder-input" placeholder="Beneficiary Wallet Address (e.g., 0x...)">
+                    <input type="number" id="vesting-duration" class="builder-input" placeholder="Vesting Duration (in seconds)">
+                    <input type="number" id="vesting-total-amount" class="builder-input" placeholder="Total Amount to Vest">
+                </div>
+            </div>
+
+            <button id="generate-btn" class="builder-button">Generate Contract</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome-title">Welcome</div>
+        <div class="welcome-subtitle">We help you all things DAG! Please switch to Protocol Buidler mode to create contracts</div>
+        
+        <div id="gemini-response" class="gemini-output" style="display: none; margin: 30px auto; max-width: 90%; background: rgba(255,255,255,0.08); padding: 16px; border-radius: 12px; font-family: 'Poppins', sans-serif; color: #fff; white-space: pre-wrap; line-height: 1.6;"></div>
+        
+        <div id="protocol-display" style="display:none; margin-top: 2rem;">
+            <h3 id="protocol-name" style="color: #FFA959;"></h3>
+            <p id="protocol-explanation"></p>
+            <div id="protocol-contracts"></div>
+        </div>
+    </div>
+
+    <form class="chat-input-bar">
+        <button type="button" id="new-chat-btn" title="Start a new chat" style="background: none; border: none; cursor: pointer; margin-right: 12px;">
+            <i class="fa fa-plus-square" style="font-size: 1.45rem; color: #aaa;"></i>
+        </button>
+        <textarea id="user-prompt-input" name="user-prompt" class="chat-input" placeholder="Ask Anything BlockDAG..." rows="1"></textarea>
+        <i class="fa fa-paper-plane" id="send-btn" style="cursor:pointer; margin-left:10px; font-size:1.45rem; color:#4fc3f7;"></i>
+    </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modeToggle = document.getElementById('mode-toggle');
+        const modeContainer = document.querySelector('.mode-selector-container');
+        const chatInterface = document.querySelector('.chat-input-bar');
+        const builderForm = document.getElementById('protocol-builder-form');
+        const sendBtn = document.getElementById('send-btn');
+        const askInput = document.getElementById('user-prompt-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const newChatBtn = document.getElementById('new-chat-btn');
+        const responseBox = document.getElementById('gemini-response');
+        const protocolDisplay = document.getElementById('protocol-display');
+        const protocolTypeDropdown = document.getElementById('protocol-type');
+        const stakingFields = document.getElementById('staking-fields');
+        const tokenFields = document.getElementById('token-fields');
+        const vestingFields = document.getElementById('vesting-fields');
+        const isGuest = sessionStorage.getItem('guestMode') === 'true';
+        let guestHistory = [];
+
+        async function sendMessage(prompt, mode) {
+            responseBox.textContent = "Processing request, please wait!";
+            responseBox.style.display = 'block';
+            protocolDisplay.style.display = 'none';
+
+        try {
+            let headers = { "Content-Type": "application/json" };
+            let body = { prompt: prompt, mode: mode };
+
+            if (isGuest) {
+                body.history = guestHistory; 
+            } else {
+                const accessToken = localStorage.getItem('accessToken');
+                if (!accessToken) {
+                    responseBox.textContent = "Error: You are not logged in.";
+                    return;
+                }
+                headers["Authorization"] = `Bearer ${accessToken}`;
+            }
+
+            const response = await fetch('/api/build-protocol/', {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Unknown server error");
+            }
+
+            const data = await response.json();
+
+            if (isGuest) {
+                guestHistory.push({ role: 'user', content: prompt });
+                const aiResponse = data.protocol ? data.protocol.explanation : data.response;
+                guestHistory.push({ role: 'model', content: aiResponse });
+            }
+
+            if (data.protocol) {
+                responseBox.style.display = 'none';
+                displayProtocol(data.protocol);
+            } else if (data.response) {
+                protocolDisplay.style.display = 'none';
+                responseBox.textContent = data.response;
+                responseBox.style.display = 'block';
+            }
+        } catch (error) {
+            console.error("Backend or Network Error:", error);
+            responseBox.textContent = "Error: " + error.message;
+        }
+    }
+
+        askInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        function updateModeUI() {
+            if (modeToggle.checked) { 
+                chatInterface.style.display = 'none';
+                builderForm.style.display = 'block';
+                modeContainer.dataset.activeMode = 'protocol_builder';
+            } else { 
+                chatInterface.style.display = 'flex';
+                builderForm.style.display = 'none';
+                modeContainer.dataset.activeMode = 'conversational';
+            }
+        }
+
+        updateModeUI(); 
+        modeToggle.addEventListener('change', updateModeUI);
+
+        protocolTypeDropdown.addEventListener('change', function() {
+        stakingFields.style.display = 'none';
+        tokenFields.style.display = 'none';
+        vestingFields.style.display = 'none';
+
+        if (this.value === 'staking') {
+            stakingFields.style.display = 'block';
+        } else if (this.value === 'token') {
+            tokenFields.style.display = 'block';
+        } else if (this.value === 'vesting') {
+            vestingFields.style.display = 'block';
+        }
+    });
+
+        sendBtn.addEventListener('click', function() {
+            const prompt = askInput.value.trim();
+            if (prompt) {
+                sendMessage(prompt, 'conversational');
+                askInput.value = "";
+                askInput.style.height = 'auto'; 
+            }
+        });
+
+        generateBtn.addEventListener('click', function() {
+            const protocolType = document.getElementById('protocol-type').value;
+            let prompt = '';
+
+            if (protocolType === 'staking') {
+                const apy = document.getElementById('protocol-apy').value;
+                const stakingAddress = document.getElementById('staking-token-address').value;
+                const rewardAddress = document.getElementById('reward-token-address').value;
+
+                if (!stakingAddress || !rewardAddress || !apy) {
+                    alert("Please fill in all staking fields.");
+                    return;
+                }
+                prompt = `Create a staking protocol with ${apy}% APY, using staking token ${stakingAddress} and reward token ${rewardAddress}.`;
+
+            } else if (protocolType === 'token') {
+                const name = document.getElementById('token-name').value;
+                const symbol = document.getElementById('token-symbol').value;
+                const supply = document.getElementById('initial-supply').value;
+
+                if (!name || !symbol || !supply) {
+                    alert("Please fill in all token fields.");
+                    return;
+                }
+                prompt = `Create an ERC-20 token contract named "${name}" with the symbol "${symbol}" and an initial supply of ${supply}.`;
+
+            } else if (protocolType === 'vesting') {
+                const tokenAddress = document.getElementById('vesting-token-address').value;
+                const beneficiary = document.getElementById('beneficiary-address').value;
+                const duration = document.getElementById('vesting-duration').value;
+                const amount = document.getElementById('vesting-total-amount').value;
+
+                if (!tokenAddress || !beneficiary || !duration || !amount) {
+                    alert("Please fill in all vesting fields.");
+                    return;
+                }
+                
+                prompt = `Create a vesting contract for the token at ${tokenAddress}. The beneficiary is ${beneficiary}, the vesting duration is ${duration} seconds, and the total amount to vest is ${amount}.`;
+            }
+            
+            if (prompt) {
+                sendMessage(prompt, 'protocol_builder');
+            }
+        });
+   
+        newChatBtn.addEventListener('click', async function() {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                alert("You must be logged in to start a new chat.");
+                return;
+            }
+            try {
+                const response = await fetch('/api/new-conversation/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` }
+                });
+                if (response.ok) {
+                    protocolDisplay.style.display = 'none';
+                    responseBox.style.display = 'none';
+                    responseBox.textContent = '';
+                    alert('New chat started!');
+                } else {
+                    alert('Failed to start a new chat.');
+                }
+            } catch (error) {
+                console.error("Error starting new chat:", error);
+            }
+        });
+
+function displayProtocol(protocol) {
+    const nameEl = document.getElementById('protocol-name');
+    const explanationEl = document.getElementById('protocol-explanation');
+    const contractsEl = document.getElementById('protocol-contracts');
+    const protocolDisplay = document.getElementById('protocol-display');
+
+    if (!protocolDisplay || !nameEl || !explanationEl || !contractsEl) {
+        console.error("One or more protocol display elements are missing from the HTML.");
+        return;
+    }
+
+    nameEl.textContent = protocol.name;
+    explanationEl.textContent = protocol.explanation;
+    contractsEl.innerHTML = ''; 
+
+    protocol.contracts.forEach(contract => {
+        const contractCard = document.createElement('div');
+        contractCard.style.marginTop = '1rem';
+        
+        const contractName = document.createElement('h4');
+        contractName.textContent = contract.name;
+        contractName.style.marginBottom = '0.5rem';
+
+        const codeBlock = document.createElement('pre');
+        codeBlock.style.background = 'rgba(0,0,0,0.3)';
+        codeBlock.style.padding = '1rem';
+        codeBlock.style.borderRadius = '8px';
+        codeBlock.style.whiteSpace = 'pre-wrap';
+        codeBlock.style.wordWrap = 'break-word';
+
+        const codeEl = document.createElement('code');
+        codeEl.textContent = contract.code;
+        
+        codeBlock.appendChild(codeEl);
+        contractCard.appendChild(contractName);
+        contractCard.appendChild(codeBlock);
+        contractsEl.appendChild(contractCard);
+    });
+
+    protocolDisplay.style.display = 'block';
+    protocolDisplay.scrollIntoView({ behavior: "smooth" });
+}
+});
+
+if (profileIcon && profileDropdown) {
+    profileIcon.addEventListener('click', function(event) {
+        event.stopPropagation();
+        profileDropdown.classList.toggle('show');
+    });
+
+    window.addEventListener('click', function() {
+        if (profileDropdown.classList.contains('show')) {
+            profileDropdown.classList.remove('show');
+        }
+    });
+}
+      
+            
+</script>
+</body>
+</html>

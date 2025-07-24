@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/community.css' %}">
+  <script src="{% static 'js/auth-guard.js' %}"></script>
+  <script>requireAuth();</script>
+</head>
+<body>
+  <nav class="navbar" style="display:flex; align-items:center; gap:2rem; padding: 1.2rem 2rem; background:#1a1a1a; border-bottom: 1px solid #333;">
+    <div class="navbar-hamburger-card">
+      <button class="navbar-hamburger" id="navbar-hamburger" tabindex="0" aria-label="Open navigation">
+        <span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+    <div style="display:flex;align-items:center;gap:2vw;margin-left:auto;">
+      <div class="navbar-center" id="navbar-links">
+        <a href="Verification.html" class="verification-pill">Verification</a>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'contract-page' %}">Contracts</a>
+        <a href="{% url 'community-page' %}" class="active">Community</a>
+        <a href="{% url 'market-page' %}">Market</a>
+      </div>
+      <div class="navbar-profile-inline">
+        <i class="fa fa-user"></i>
+      </div>
+    </div>
+  </nav>
+  <div class="main-content">
+    <div id="card-container">
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 01. 2h <span class="card-url">www.web1.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 02. 2h <span class="card-url">www.web2.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 03. 2h <span class="card-url">www.web3.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 04. 2h <span class="card-url">www.web4.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 05. 1h <span class="card-url">www.web5.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 06. 1h <span class="card-url">www.web6.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 07. 1h <span class="card-url">www.web7.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 08. 1h <span class="card-url">www.web8.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 09. 1h <span class="card-url">www.web9.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 10. 1h <span class="card-url">www.web10.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 11. 1h <span class="card-url">www.web11.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+      <div class="community-card">
+        <div class="card-header">
+          <span><i class="fa fa-user"></i> User 12. 1h <span class="card-url">www.web12.com &gt;</span></span>
+          <div class="sample-image-card">Sample image</div>
+        </div>
+        <div class="card-lines">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="card-actions">
+          <span><i class="fa fa-arrow-up"></i> 0</span>
+          <span><i class="fa fa-arrow-down"></i> 0</span>
+          <span><i class="fa fa-comment"></i> 0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      // Hamburger menu toggle for mobile
+      const hamburger = document.getElementById('navbar-hamburger');
+      const navLinks = document.getElementById('navbar-links');
+      if (hamburger && navLinks) {
+          hamburger.addEventListener('click', function() {
+              navLinks.classList.toggle('show-nav');
+          });
+          hamburger.addEventListener('keydown', function(e) {
+              if (e.key === 'Enter' || e.key === ' ') {
+                  navLinks.classList.toggle('show-nav');
+              }
+          });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+          const postContainer = document.getElementById('card-container');
+          const accessToken = localStorage.getItem('accessToken');
+
+          if (!postContainer || !accessToken) {
+              console.error("Could not find post container or access token. Is the user logged in?");
+              return;
+          }
+
+          async function loadPosts() {
+              try {
+                  const response = await fetch('/api/posts/', {
+                      headers: { 'Authorization': `Bearer ${accessToken}` }
+                  });
+
+                  if (!response.ok) {
+                      console.error("Failed to fetch posts. Status:", response.status);
+                      postContainer.innerHTML = '<p style="color: white; text-align: center;">Could not load posts.</p>';
+                      return;
+                  }
+
+                  const posts = await response.json();
+                  
+                  postContainer.innerHTML = ''; // Clear the static demo content
+
+                  if (posts.length === 0) {
+                      postContainer.innerHTML = '<p style="color: white; text-align: center;">No posts yet. Be the first to create one!</p>';
+                  } else {
+                      posts.forEach(post => {
+                          const postCard = document.createElement('div');
+                          postCard.className = 'community-card';
+                          
+                          postCard.innerHTML = `
+                              <div class="card-header">
+                                  <span><i class="fa fa-user"></i> ${post.author.wallet_address.substring(0, 8)}...</span>
+                              </div>
+                              <h4>${post.title}</h4>
+                              <p>${post.content}</p>
+                              <div class="card-actions">
+                                  <span class="upvote-btn" data-post-id="${post.id}" style="cursor: pointer;"><i class="fa fa-arrow-up"></i> ${post.score || 0}</span>
+                                  <span class="downvote-btn" data-post-id="${post.id}" style="cursor: pointer;"><i class="fa fa-arrow-down"></i></span>
+                                  <span><i class="fa fa-comment"></i> 0</span>
+                              </div>
+                          `;
+                          postContainer.appendChild(postCard);
+                      });
+                  }
+              } catch (error) {
+                  console.error("Error loading posts:", error);
+                  postContainer.innerHTML = '<p style="color: white; text-align: center;">An error occurred while loading posts.</p>';
+              }
+          }
+
+          postContainer.addEventListener('click', async function(event) {
+              const target = event.target.closest('.upvote-btn, .downvote-btn');
+              if (!target) return;
+
+              const postId = target.dataset.postId;
+              const isUpvote = target.classList.contains('upvote-btn');
+              
+              try {
+                  const voteResponse = await fetch(`/api/posts/${postId}/vote/`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'Authorization': `Bearer ${accessToken}`
+                      },
+                      body: JSON.stringify({ vote_type: isUpvote ? 1 : -1 })
+                  });
+
+                  if (voteResponse.ok) {
+                      loadPosts();
+                  } else {
+                      console.error("Failed to submit vote.");
+                  }
+              } catch (error) {
+                  console.error("Error voting:", error);
+              }
+          });
+
+          loadPosts();
+      });
+  </script>
+</body>
+</html>

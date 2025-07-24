@@ -1,0 +1,336 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - EasyDAG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <script src="{% static 'js/auth-guard.js' %}"></script>
+  <script>requireAuth();</script>
+  
+  <script>
+    window.addEventListener('scroll', function() {
+      var homeProfileLabel = document.querySelector('.home-profile-label');
+      if (!homeProfileLabel) return;
+      var y = window.scrollY;
+      var fadeStart = 0, fadeEnd = 80;
+      var opacity = 1;
+      if (y <= fadeStart) {
+        opacity = 1;
+      } else if (y >= fadeEnd) {
+        opacity = 0;
+      } else {
+        opacity = 1 - (y - fadeStart) / (fadeEnd - fadeStart);
+      }
+      homeProfileLabel.style.opacity = opacity;
+      document.body.classList.toggle('scrolled', y > 8);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+    const carouselInner = document.getElementById('contractsCarouselInner');
+    const nextBtn = document.getElementById('carouselNext');
+    let currentIndex = 0;
+
+    function updateCarousel(idx) {
+      currentIndex = idx;
+      carouselInner.style.transform = `translateX(-${idx * 300}px)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        let next = (currentIndex + 1) % dots.length;
+        updateCarousel(next);
+      });
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => updateCarousel(i));
+    });
+
+    updateCarousel(0);
+  </script>
+</head>
+<body>
+  <div class="scroll-fade-top"></div>
+    <div class="scroll-container">
+      <section class="home-section">
+        <nav class="navbar" style="display:flex; align-items:center; gap:2rem; padding: 1.2rem 2rem; background:#1a1a1a; border-bottom: 1px solid #333;">
+          <div class="navbar-hamburger-card">
+            <button class="navbar-hamburger" id="navbar-hamburger" tabindex="0" aria-label="Open navigation">
+              <span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </button>
+          </div>
+          <div style="display:flex;align-items:center;gap:2vw;margin-left:auto;">
+            <div class="navbar-center" id="navbar-links">
+              <a href="{% url 'home' %}" class="active">Home</a>
+              <a href="{% url 'contract-page' %}">Contracts</a>
+              <a href="{% url 'community-page' %}">Community</a>
+              <a href="{% url 'market-page' %}" >Market</a>
+            </div>
+
+          </div>
+          <span class="navbar-profile-inline" id="profile-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36" height="36">
+              <circle cx="12" cy="8.5" r="4.5" opacity="0.85" />
+              <path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" opacity="0.65" />
+            </svg>
+          </span>
+
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+                <span class="wallet-address">0x123...aBcD</span>
+            </div>
+            <a href="#" class="dropdown-item">My Posts</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item logout">Logout</a>
+        </div>
+        </nav>
+
+        <main class="main-content" style="justify-content: center; align-items: center; margin: 0; min-height: 80vh;">
+          <div class="glass-card">
+            <div class="chart-placeholder">
+              <script async src="https://static.coinstats.app/widgets/coin-chart-widget.js"></script>
+              <coin-stats-chart-widget
+                type="large"
+                coin-id="8Zj3K1MnVWTVXh27xM9ARDoGwcBmCr5S4NDYYfix4Egd_solana"
+                width="650"
+                chart-height="300"
+                currency="USD"
+                locale="en"
+                bg-color="#1C1B1B"
+                text-color="#FFFFFF"
+                status-up-color="#74D492"
+                status-down-color="#FE4747"
+                buttons-color="#1C1B1B"
+                chart-color="#FFA959"
+                chart-gradient-from="rgba(255,255,255,0.07)"
+                chart-gradient-to="rgba(0,0,0,0)"
+                chart-label-background="#000000"
+                candle-grids-color="rgba(255,255,255,0.1)"
+                border-color="rgba(255,255,255,0.15)"
+                font="Roboto, Arial, Helvetica"
+                btc-color="#6DD400"
+                eth-color="#67B5FF">
+              </coin-stats-chart-widget>
+            </div>
+          </div>
+          <div class="main-info">
+            <h1>Unlock the Power of BlockDAG</h1>
+            <div class="desc">
+              BlockDAG technology offers unparalleled speed and scalability, but its complexity can be a barrier. <strong>EasyDAG</strong> is your AI-powered launchpad, designed to make smart contract creation effortless.
+              <br><br>
+              Generate, modify, and understand secure contracts using simple conversation or our guided Protocol Builder.
+            </div>
+            <button class="trade-btn" onclick=window.location.href="{% url 'market-page' %}">Buy BDAG</button>
+            <br>
+            <button class="trade-btn" onclick=window.location.href="{% url 'contract-page' %}">Generate Contract</button>
+          </div>
+        </main>
+        <div class="profile-label home-profile-label" style="position: absolute; left: 5vw; top: calc(50vh + 250px); bottom: unset; font-size: 2.6rem; z-index: 100; pointer-events: none;"></div>
+      </section>
+    <section class="about-section" style="min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; padding: 0 2vw; background: none;">
+      <section class="profile-section">
+          <div class="profile-main">
+              <h1 class="profile-title">My Profile</h1>
+              <div class="profile-cards">
+                  <div class="profile-card left">
+                      <div class="profile-user-info">
+                          <div class="profile-icon-bg">
+                              <i class="fa fa-user"></i>
+                          </div>
+                          <div class="profile-wallet-details">
+                              <span class="profile-wallet-label">Wallet Address</span>
+                              <span class="profile-wallet-address">0x1A2b3c4D5e...f6G7h8</span>
+                          </div>
+                      </div>
+                      <div class="profile-stats">
+                          <div class="stat-item">
+                              <span class="stat-value">8</span>
+                              <span class="stat-label">Contracts Generated</span>
+                          </div>
+                          <div class="stat-item">
+                              <span class="stat-value">1</span>
+                              <span class="stat-label">Community Posts</span>
+                          </div>
+                          <div class="stat-item">
+                              <span class="stat-value">July 2025</span>
+                              <span class="stat-label">Date Joined</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="profile-card right">
+                      <h3>Recent Activity</h3>
+                      <ul class="activity-feed">
+                          <li class="activity-item">
+                              <i class="fa fa-plus-circle"></i>
+                              <span>Generated a new <strong>Staking Contract</strong>. <small>2 hours ago</small></span>
+                          </li>
+                          <li class="activity-item">
+                              <i class="fa fa-arrow-up"></i>
+                              <span>Upvoted a post in the Community. <small>5 hours ago</small></span>
+                          </li>
+                          <li class="activity-item">
+                              <i class="fa fa-comment"></i>
+                              <span>Asked a question about BlockDAG security. <small>1 day ago</small></span>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </section>
+    </div>
+
+    <section class="contracts-section" style="min-height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: url('bg1.jpeg') center center/cover no-repeat fixed; padding: 6vw 2vw 0 2vw; position: relative;">
+      <h1 style="font-size: 2.8rem; font-weight: 700; color: #fff; margin-bottom: 2vw; letter-spacing: 1.2px; text-shadow: 0 2px 16px #000a; font-family: 'Poppins', 'Inter', Arial, sans-serif; text-align: center; margin: 0 auto;">Popular Contracts</h1>
+      <div class="contracts-carousel" style="display: flex; gap: 1vw; justify-content: center; align-items: flex-start; width: 96vw; max-width: 1200px; margin-bottom: 2vw; margin-left: auto; margin-right: auto; padding-left: 2vw; padding-right: 2vw;">
+        <div id="contractsCarouselInner" style="display: flex; transition: transform 0.5s cubic-bezier(.77,0,.18,1); width: 100%; justify-content: center; max-width: 1140px; padding: 0 3vw 0 1vw;">
+          <div style="display: flex; gap: 2.5vw; width: 100%; justify-content: center; align-items: flex-start;">
+            
+            <div id="token-contract-card" class="contract-card" style="min-height: 240px; background: rgba(18,22,34,0.55); border-radius: 24px; box-shadow: 0 8px 32px #000a; padding: 2rem 2rem 1.2rem 2rem; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; backdrop-filter: blur(12px); margin-top: 58px;">
+              <span style="font-size: 1.3rem; font-weight: 600; color: #fff;">ERC-20 Token Contract</span>
+              <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+              <span class="view-link" style="font-size: 1.1rem; color: #fff; opacity: 0.8;">Hover to View</span>
+                <span class="share-icon" style="color: #fff; opacity: 0.7; display: flex; align-items: center; justify-content: center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                      <path d="M5 12v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                      <path d="M12 4v7" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M9 7l3-3 3 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div id="staking-contract-card" class="contract-card" style="min-height: 240px; background: rgba(18,22,34,0.55); border-radius: 24px; box-shadow: 0 8px 32px #000a; padding: 2rem 2rem 1.2rem 2rem; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; backdrop-filter: blur(12px); margin-top: 58px;">
+              <span style="font-size: 1.3rem; font-weight: 600; color: #fff;">Staking Contract</span>
+              <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+              <span class="view-link" style="font-size: 1.1rem; color: #fff; opacity: 0.8;">Hover to View</span>
+                <span class="share-icon" style="color: #fff; opacity: 0.7; display: flex; align-items: center; justify-content: center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                      <path d="M5 12v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                      <path d="M12 4v7" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M9 7l3-3 3 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div id="vesting-contract-card" class="contract-card" style= "min-height: 240px; background: rgba(18,22,34,0.55); border-radius: 24px; box-shadow: 0 8px 32px #000a; padding: 2rem 2rem 1.2rem 2rem; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; backdrop-filter: blur(12px); margin-top: 58px;">
+              <span style="font-size: 1.3rem; font-weight: 600; color: #fff;">Vesting Contract</span>
+              <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+              <span class="view-link" style="font-size: 1.1rem; color: #fff; opacity: 0.8;">Hover to View</span>
+                <span class="share-icon" style="color: #fff; opacity: 0.7; display: flex; align-items: center; justify-content: center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                      <path d="M5 12v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                      <path d="M12 4v7" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M9 7l3-3 3 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="create-btn" style="margin-top: 1vw; padding: 1rem 3rem; border-radius: 32px; background: #232a3a; color: #fff; font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; border: none; box-shadow: 0 2px 12px #7f8cff55, 0 2px 12px #2c3e50cc; cursor: pointer; display: block; margin-left: auto; margin-right: auto;" onclick=window.location.href="{% url 'contract-page' %}">Create New</button>
+    </section>
+
+    
+    <section class="about-section" style="min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; padding: 0 2vw; background: none;">
+      <div class="about-card" style="background: rgba(255,255,255,0.05); border-radius: 32px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); padding: 2.8rem 3.2rem; text-align: left; max-width: 900px; width: 100%; min-height: 420px; backdrop-filter: blur(12px); border: 2px solid rgba(255,255,255,0.08);">
+        <h2 class="about-title">Our Mission</h2>
+
+        <div class="about-divider">
+            <div class="about-line"></div>
+            <div style="width: 10px; height: 10px; border-radius: 50%; background: #bfc7d5; margin: 0 0.5rem;"></div>
+            <div class="about-line"></div>
+        </div>
+
+        <p style="font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">
+            We believe the future of the decentralized web is being built on fast, scalable technologies like BlockDAG. However, today, accessing this power requires deep technical expertise, leaving many potential innovators behind.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">
+            <strong>EasyDAG</strong> was born from a simple idea: what if anyone could build on the blockchain just by having a conversation? Our mission is to break down the barriers to entry. We've created an intelligent, AI-powered platform that translates natural language and simple inputs into secure, robust smart contracts.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">
+            Built for the BlockDAG Hackathon, our goal is to empower the next wave of creators by building tools that are not only powerful but also intuitive and accessible to everyone.
+        </p>
+        <div class="about-divider" style="display: flex; align-items: center; justify-content: center; margin: 0.5rem 0 2.5rem 0;">
+          <div class="about-line" style="flex: 1; height: 2px; background: rgba(255,255,255,0.18);"></div>
+          <div style="width: 10px; height: 10px; border-radius: 50%; background: #bfc7d5; margin: 0 0.5rem;"></div>
+          <div class="about-line" style="flex: 1; height: 2px; background: rgba(255,255,255,0.18);"></div>
+        </div>
+        
+      </div>
+    </section>
+    </section>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        
+          function initializeHoverCard(cardId, contractFileName) {
+              const card = document.getElementById(cardId);
+              if (!card) return;
+
+              card.addEventListener('mouseenter', async function() {
+                  card.classList.add('expanded');
+                  if (card.querySelector('.code-display-box')) return;
+                  try {
+                      const response = await fetch("{% static 'contracts/' %}" + contractFileName);
+                      if (!response.ok) return;
+                      const contractCode = await response.text();
+                      const codeBox = document.createElement('div');
+                      codeBox.className = 'code-display-box';
+                      codeBox.innerHTML = `<pre><code>${contractCode}</code></pre>`;
+                      card.appendChild(codeBox);
+                  } catch (error) {
+                      console.error("Failed to fetch contract:", error);
+                  }
+              });
+
+              card.addEventListener('mouseleave', function() {
+                  card.classList.remove('expanded');
+                  const codeBox = card.querySelector('.code-display-box');
+                  if (codeBox) {
+                      codeBox.remove();
+                  }
+              });
+          }
+          
+          initializeHoverCard('staking-contract-card', 'Staking.sol');
+          initializeHoverCard('token-contract-card', 'Token.sol');
+          initializeHoverCard('vesting-contract-card', 'Vesting.sol');
+
+     
+          const profileIcon = document.getElementById('profile-icon');
+          const profileDropdown = document.getElementById('profile-dropdown');
+
+          if (profileIcon && profileDropdown) {
+              profileIcon.addEventListener('click', function(event) {
+                  event.stopPropagation();
+                  profileDropdown.classList.toggle('show');
+              });
+
+              window.addEventListener('click', function() {
+                  if (profileDropdown.classList.contains('show')) {
+                      profileDropdown.classList.remove('show');
+                  }
+              });
+          }
+      });
+  </script>
+
+    </body>
+</html>

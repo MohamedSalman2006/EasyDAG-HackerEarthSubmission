@@ -1,0 +1,270 @@
+body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: url('../images/bg1.jpg') center center/cover no-repeat fixed;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .navbar {
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.2rem 0 0 0;
+      background: transparent;
+      position: relative;
+      z-index: 10;
+      font-size: 1.35rem;
+      font-family: 'Poppins', Arial, sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .navbar-hamburger-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(18, 22, 34, 0.85);
+      border-radius: 50%;
+      box-shadow: 0 2px 12px #0005;
+      margin-left: 2vw;
+      margin-right: 1vw;
+    }
+    .navbar-hamburger {
+      background: none;
+      border: none;
+      outline: none;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .navbar-hamburger span {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      position: relative;
+    }
+    .navbar-hamburger span > span {
+      position: absolute;
+      left: 0;
+      width: 24px;
+      height: 3px;
+      background: #bfc7d5;
+      border-radius: 2px;
+    }
+    .navbar-hamburger span > span:nth-child(1) { top: 6px; }
+    .navbar-hamburger span > span:nth-child(2) { top: 11px; }
+    .navbar-hamburger span > span:nth-child(3) { top: 16px; }
+    .navbar-center {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        flex-shrink: 1;
+        min-width: 0;
+        overflow-x: auto;
+        max-width: 80vw;
+        margin-left: auto;
+    }
+.navbar-center a {
+    color: #f89c24;
+    text-decoration: none;
+    font-size: 1.22rem;
+    font-weight: 500;
+    padding: 0.5rem 1.6rem;
+    border-radius: 12px;
+    transition: background 0.2s, color 0.2s;
+    opacity: 0.95;
+    letter-spacing: 0.2px;
+    font-family: 'Poppins', 'Inter', Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+    .navbar-center a.active {
+      color: #fff;
+      background: none;
+      border-radius: 0;
+      padding-bottom: 0.2rem;
+      box-shadow: none;
+      position: relative;
+    }
+    .navbar-center a.active::after {
+      content: '';
+      display: block;
+      margin: 0 auto;
+      margin-top: 6px;
+      width: 32px;
+      height: 3px;
+      background: #7fffcf;
+      border-radius: 2px;
+    }
+.navbar-profile-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0rem;
+    font-size: 1.7rem;
+    color: #fff;
+    background: rgba(18, 22, 34, 0.85);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 2px 12px #0005;
+    border: 2px solid rgba(255,255,255,0.10);
+    cursor: pointer;
+    transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+} 
+    .verification-pill {
+      background: rgba(18, 22, 34, 0.95);
+      color: #fff;
+      border-radius: 12px !important;
+      padding: 0.18rem 0.9rem !important;
+      font-weight: 500;
+      font-size: 0.85rem !important;
+      box-shadow: 0 2px 12px #0005;
+      border: none;
+      letter-spacing: 0.15px;
+      margin-right: 0.6rem;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1.2;
+    }
+    .verification-pill:hover {
+      background: rgba(18, 22, 34, 0.95) !important;
+      color: #fff !important;
+    }
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100vw;
+      margin-top: 2.5rem;
+    }
+    #card-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5vw;
+      justify-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .community-card {
+      background: rgba(24,28,40,0.55);
+      border-radius: 20px;
+      box-shadow: 0 4px 32px #000a;
+      padding: 1.7rem 1rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 380px;
+      max-width: 380px;
+      min-height: 180px;
+      margin-bottom: 1.5vw;
+      position: relative;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-header span {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+    .card-header .fa-user {
+      font-size: 1.18rem;
+    }
+    .card-url {
+      font-size: 0.98rem;
+      opacity: 0.7;
+      margin-left: 0.5rem;
+    }
+    .sample-image-card {
+      background: #8888;
+      min-width: 90px;
+      min-height: 90px;
+      max-width: 90px;
+      max-height: 90px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 500;
+    }
+    .card-lines {
+      margin: 1rem 0 1rem 0;
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .card-lines div {
+      border-bottom: 1px dashed #fff3;
+      width: 80%;
+      height: 1px;
+    }
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.7rem;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      color: #fff;
+      opacity: 0.95;
+    }
+    .card-actions span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+    }
+    /* Custom scrollbar styles - extra thin */
+    ::-webkit-scrollbar {
+      width: 3.5px;
+      background: rgba(24,28,40,0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #bfc7d5;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #0002;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e3e6f3;
+    }
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #bfc7d5 #181c28;
+    }
+    @media (max-width: 900px) {
+      .navbar-center {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100vw;
+        background: rgba(24,28,40,0.98);
+        flex-direction: column;
+        gap: 0;
+        padding: 1.5rem 0 1.5rem 0;
+        box-shadow: 0 8px 32px #000a;
+        border-radius: 0 0 18px 18px;
+        z-index: 19;
+      }
+      .navbar-center.show-nav {
+        display: flex;
+      }
+      .navbar-hamburger-card {
+        display: flex;
+      }
+    }

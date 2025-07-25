@@ -1,50 +1,13 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contracts - AI Smart Contract</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+{% block title %}Contracts - EasyDAG{% endblock %}
+
+{% block styles %}
     <link rel="stylesheet" href="{% static 'css/contract.css' %}">
-    <script src="{% static 'js/auth-guard.js' %}"></script>
-    <script>requireAuth();</script>
+{% endblock %}
 
-</head>
-<body>
-    <nav class="navbar" style="display:flex; align-items:center; gap:2rem; padding: 1.2rem 2rem; background:#1a1a1a; border-bottom: 1px solid #333;">
-        <div class="navbar-hamburger-card">
-            <button class="navbar-hamburger" id="navbar-hamburger" tabindex="0" aria-label="Open navigation">
-              <span><span></span><span></span><span></span></span>
-            </button>
-        </div>
-        <div style="display:flex;align-items:center;gap:2vw;margin-left:auto;">
-            <div class="navbar-center" id="navbar-links">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'contract-page' %}" class="active">Contracts</a>
-                <a href="{% url 'community-page' %}">Community</a>
-                <a href="{% url 'market-page' %}">Market</a>
-            </div>
-        </div>
-          <span class="navbar-profile-inline" id="profile-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36" height="36">
-              <circle cx="12" cy="8.5" r="4.5" opacity="0.85" />
-              <path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" opacity="0.65" />
-            </svg>
-          </span>
-
-          <div class="profile-dropdown" id="profile-dropdown">
-            <div class="dropdown-header">
-                <span class="wallet-address">0x123...aBcD</span>
-            </div>
-            <a href="#" class="dropdown-item">My Posts</a>
-            <a href="#" class="dropdown-item">Settings</a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item logout">Logout</a>
-        </div>
-    </nav>
-
+{% block content %}
     <div class="mode-selector-container">
         <span class="mode-label" data-mode="conversational">Conversational Mode</span>
         <label class="switch">
@@ -113,8 +76,11 @@
         <textarea id="user-prompt-input" name="user-prompt" class="chat-input" placeholder="Ask Anything BlockDAG..." rows="1"></textarea>
         <i class="fa fa-paper-plane" id="send-btn" style="cursor:pointer; margin-left:10px; font-size:1.45rem; color:#4fc3f7;"></i>
     </form>
+{% endblock %}
 
+{% block scripts %}
 <script>
+    requireAuth();
     document.addEventListener('DOMContentLoaded', function () {
         const modeToggle = document.getElementById('mode-toggle');
         const modeContainer = document.querySelector('.mode-selector-container');
@@ -342,20 +308,5 @@ function displayProtocol(protocol) {
 }
 });
 
-if (profileIcon && profileDropdown) {
-    profileIcon.addEventListener('click', function(event) {
-        event.stopPropagation();
-        profileDropdown.classList.toggle('show');
-    });
-
-    window.addEventListener('click', function() {
-        if (profileDropdown.classList.contains('show')) {
-            profileDropdown.classList.remove('show');
-        }
-    });
-}
-      
-            
 </script>
-</body>
-</html>
+{% endblock %}

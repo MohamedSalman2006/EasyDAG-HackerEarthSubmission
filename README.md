@@ -29,7 +29,7 @@ The user-friendly interface includes auto-expanding chat inputs, hover-to-previe
 
 ---
 
-## 🛠️ Our Technology Stack 
+## Our Technology Stack 
 
 | Layer | Technology |
 | :--- | :--- |
@@ -118,8 +118,8 @@ Follow these instructions to set up EasyDAG locally.
 
 ## Our Team 
 
-* **Mohamed Salman** - Project Lead, Backend Dev, DB Arch 
+* **Mohamed Salman** - Project Lead, Backend dev and integration.
 * **Suresh Krishnan** - Frontend Dev 
 * **Sri Shineka SK** - ML Finetuning
-* **Aswin Kumar** - UI/UX Designing 
+* **Aswin Kumar** - UI/UX Designing
 * **Haanika Ishani** - Assist 

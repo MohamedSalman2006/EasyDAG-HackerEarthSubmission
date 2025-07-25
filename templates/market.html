@@ -1,51 +1,20 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Market - AI Smart Contract</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+{% block title %}Market - EasyDAG{% endblock %}
+
+{% block styles %}
   <link rel="stylesheet" href="{% static 'css/market.css' %}">
+{% endblock %}
+
   <script src="{% static 'js/auth-guard.js' %}"></script>
-  <script>requireAuth();</script>
   <script async src="https://static.coinstats.app/widgets/coin-chart-widget.js"></script>
   <script async src="https://static.coinstats.app/widgets/coin-price-widget.js"></script>
   <script async src="https://static.coinstats.app/widgets/coin-calculator-widget.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-  
 
-</head>
-<body style="overflow-y: scroll; height: 100vh; margin: 0; font-family: 'Poppins', sans-serif; background-color: #121622; color: white; overflow-y: auto;">
 
-  <nav class="navbar" style="display:flex; align-items:center; gap:2rem; padding: 1.2rem 2rem; background:#1a1a1a; border-bottom: 1px solid #333;">
-          <div class="navbar-hamburger-card">
-            <button class="navbar-hamburger" id="navbar-hamburger" tabindex="0" aria-label="Open navigation">
-              <span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </span>
-            </button>
-          </div>
-          <div style="display:flex;align-items:center;gap:2vw;margin-left:auto;">
-            <div class="navbar-center" id="navbar-links">
-              <a href="{% url 'home' %}" >Home</a>
-              <a href="{% url 'contract-page' %}">Contracts</a>
-              <a href="{% url 'community-page' %}">Community</a>
-              <a href="{% url 'market-page' %}" class="active">Market</a>
-            </div>
-
-          </div>
-          <span class="navbar-profile-inline">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36" height="36">
-              <circle cx="12" cy="8.5" r="4.5" opacity="0.85" />
-              <path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" opacity="0.65" />
-            </svg>
-          </span>
-        </nav>
-
+{% block content %}
   <div style="display: flex; padding: 2rem; gap: 2rem;">
 
     <div style="flex: 1; max-width: 26vw; background: rgba(18,22,34,0.85); padding: 1.5rem; border-radius: 18px; box-shadow: 0 0 24px #0008;">
@@ -109,9 +78,17 @@
     </button>
   </div>
 </div>
+{% endblock %}
 
-
-<script src="{% static 'js/transaction.js' %}"></script>
+{% block scripts %}
+  <script>requireAuth()</script> 
+  <script src="{% static 'js/auth-guard.js' %}"></script>
+  <script async src="https://static.coinstats.app/widgets/coin-chart-widget.js"></script>
+  <script async src="https://static.coinstats.app/widgets/coin-price-widget.js"></script>
+  <script async src="https://static.coinstats.app/widgets/coin-calculator-widget.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script src="{% static 'js/transaction.js' %}"></script>
+{% endblock %}
 
 </body>
 </html>

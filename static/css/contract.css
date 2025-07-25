@@ -294,3 +294,105 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 20px rgba(127, 255, 207, 0.4);
 }
+
+.modal {
+    display: none;
+    position: relative;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: rgba(18, 22, 34, 0.85);
+    margin: 10% auto;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 0 8px 32px #000a;
+    position: relative;
+}
+
+.modal-close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #FFA959;
+}
+
+.modal-subtitle {
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.modal-code-box {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-code-box pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.modal-button {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.modal-button.primary {
+    background: linear-gradient(to right, #7fffcf, #FFA959);
+    color: #121622;
+}
+.modal-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(127, 255, 207, 0.4);
+}
+
+.modal-button.secondary {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+.modal-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

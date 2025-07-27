@@ -1,6 +1,7 @@
 # EasyDAG: The Conversational BlockDAG Assistant
 
 A submission for the BlockDAG Hackathon 2025.
+visit https://easydag-for-blockdag.onrender.com/ to access the deployed website
 
 ## Overview
 

@@ -341,7 +341,9 @@
             protocolDisplay.appendChild(deployButton);
 
             deployButton.addEventListener('click', openDeployModal);
+            deployButton.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+
         function openDeployModal() {
             if (generatedContractCode) {
                 modalCodeContent.textContent = generatedContractCode;

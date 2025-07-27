@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <script>
-    // This script checks if the user is already logged in and redirects them to the home page.
     const token = localStorage.getItem("accessToken");
     if (token) {
       try {
@@ -29,6 +28,7 @@
         <div class="intro-section">
             <h1>EasyDAG</h1>
             <p>Your conversational gateway to the world of BlockDAG. Generate, modify, and understand smart contracts with the power of AI.</p>
+            <a href="https://blockdag.network/about-us" target="_blank" style="color: orange;"> To learn more about BlockDAG, click here</a>        
         </div>
 
         <div class="login-section">
@@ -50,7 +50,6 @@
     </div>
 
     <script>
-        // --- Main function to handle the secure, nonce-based login ---
         async function submitWalletLogin(event) {
             event.preventDefault();
 
@@ -60,22 +59,22 @@
             }
 
             try {
-                // 1. Connect wallet to get the address
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 const wallet_address = accounts[0];
 
-                // 2. Fetch the unique nonce from the backend
+              const walletDisplayElement = document.getElementById("walletDisplay");
+              walletDisplayElement.innerText = `To connect: ${wallet_address}`;
+              walletDisplayElement.style.display = "block";
+
                 const nonceResponse = await fetch("/api/get-nonce/");
                 const nonceData = await nonceResponse.json();
-                const message = nonceData.nonce; // This is the unique message to sign
+                const message = nonceData.nonce; 
 
-                // 3. Request signature for the unique nonce
                 const signature = await window.ethereum.request({
                     method: 'personal_sign',
                     params: [message, wallet_address]
                 });
 
-                // 4. Send the signature and the nonce to the backend for verification
                 const response = await fetch("/api/login/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -99,7 +98,6 @@
             }
         }
 
-        // --- Attach event listeners to the buttons ---
         document.getElementById("wallet-form").addEventListener("submit", submitWalletLogin);
 
         document.getElementById("guest-login-btn").addEventListener("click", function() {

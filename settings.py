@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't']
 
-ALLOWED_HOSTS = ['your-app-name.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = ['easydag-for-blockdag.onrender.com', '127.0.0.1']
 
 AUTH_USER_MODEL = 'core.User'
 

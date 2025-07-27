@@ -6,31 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - EasyDAG</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <script>
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    try {
-      const [, payload] = token.split('.');
-      const decoded = JSON.parse(atob(payload));
-      const now = Date.now() / 1000;
-      if (decoded.exp > now) {
-        window.location.href = "/home/";
+    // This script checks if the user is already logged in and redirects them to the home page.
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      try {
+        const [, payload] = token.split('.');
+        const decoded = JSON.parse(atob(payload));
+        const now = Date.now() / 1000;
+        if (decoded.exp > now) {
+          window.location.href = "/home/";
+        }
+      } catch (e) {
+        localStorage.removeItem("accessToken");
       }
-    } catch (e) {
-      localStorage.removeItem("accessToken");
     }
-  }
-</script>
-
+  </script>
 </head>
 <body>
     <div class="split-container">
         <div class="intro-section">
             <h1>EasyDAG</h1>
-            <p>Your conversational gateway to the world of BlockDAG. Generate, modify, and understand smart contracts with the power of AI.!</p>
-            <a href="https://blockdag.network/about-us" target="_blank" style="color: orange;"> To learn more about BlockDAG, click here</a> 
+            <p>Your conversational gateway to the world of BlockDAG. Generate, modify, and understand smart contracts with the power of AI.</p>
         </div>
 
         <div class="login-section">
@@ -45,91 +43,69 @@
                 <p id="walletDisplay" style="display: none; color: #7fffcf; font-weight: 600; margin-top: 1rem; word-break: break-all;"></p>
                 
                 <div class="login-footer">
-                Don't have Metamask? <a href="https://metamask.io/download" target="_blank">Install</a>
-              </div>
-          </div>
-      </div>
-  </div>
+                    Don't have Metamask? <a href="https://metamask.io/download" target="_blank">Install</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        // --- Main function to handle the secure, nonce-based login ---
+        async function submitWalletLogin(event) {
+            event.preventDefault();
 
-  <script>
-    const loginCard = document.querySelector('.login-card');
-    const loginBtn = document.querySelector('.navbar .login-btn');
-    const closeBtn = document.querySelector('.close-btn');
-    loginBtn.addEventListener('click', function() {
-      loginCard.style.display = 'flex';
-    });
-    closeBtn.addEventListener('click', function() {
-      loginCard.style.display = 'none';
-    });
-    window.addEventListener('DOMContentLoaded', function() {
-      loginCard.style.display = 'flex';
-    });
-    const oldBar = document.querySelector('body > div[style*="position:fixed"]');
-    if (oldBar) oldBar.remove();
-  </script>
+            if (typeof window.ethereum === 'undefined') {
+                alert("MetaMask is not installed!");
+                return;
+            }
 
+            try {
+                // 1. Connect wallet to get the address
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const wallet_address = accounts[0];
 
-  <script>
-    async function submitWalletLogin(event) {
-      event.preventDefault();
+                // 2. Fetch the unique nonce from the backend
+                const nonceResponse = await fetch("/api/get-nonce/");
+                const nonceData = await nonceResponse.json();
+                const message = nonceData.nonce; // This is the unique message to sign
 
-      if (typeof window.ethereum === 'undefined') {
-        alert("MetaMask is not installed!");
-        return;
-      }
+                // 3. Request signature for the unique nonce
+                const signature = await window.ethereum.request({
+                    method: 'personal_sign',
+                    params: [message, wallet_address]
+                });
 
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const walletAddress = accounts[0];
+                // 4. Send the signature and the nonce to the backend for verification
+                const response = await fetch("/api/login/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        wallet_address: wallet_address,
+                        signature: signature,
+                        message: message 
+                    })
+                });
 
-        const display = document.getElementById("walletDisplay");
-        display.style.display = "block";
-        display.innerText = `Connected: ${walletAddress}`;
-
-        const message = "Login to EasyDAG!";
-
-        const signature = await window.ethereum.request({
-          method: 'personal_sign',
-          params: [message, walletAddress]
-        });
-
-        const response = await fetch("/api/login/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            wallet_address: walletAddress,
-            signature: signature,
-            message: message
-          })
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-          localStorage.setItem("accessToken", result.access);
-          localStorage.setItem("walletAddress", result.wallet_address);
-
-          window.location.href = "/home/";
-
-        } else {
-          alert("Login failed: " + (result.error || JSON.stringify(result)));
+                const result = await response.json();
+                if (response.ok) {
+                    localStorage.setItem("accessToken", result.access);
+                    window.location.href = "/home/";
+                } else {
+                    alert("Login failed: " + (result.error || JSON.stringify(result)));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("MetaMask error: " + err.message);
+            }
         }
 
-      } catch (err) {
-        console.error(err);
-        alert("MetaMask error: " + err.message);
-      }
-    }
+        // --- Attach event listeners to the buttons ---
+        document.getElementById("wallet-form").addEventListener("submit", submitWalletLogin);
 
-    document.getElementById("wallet-form").addEventListener("submit", submitWalletLogin);
-
-    document.getElementById("guest-login-btn").addEventListener("click", function() {
-    sessionStorage.setItem('guestMode', 'true');
-    window.location.href = "{% url 'contract-page' %}";
-});
-  </script>
-
+        document.getElementById("guest-login-btn").addEventListener("click", function() {
+            sessionStorage.setItem('guestMode', 'true');
+            window.location.href = "{% url 'contract-page' %}";
+        });
+    </script>
 </body>
 </html>

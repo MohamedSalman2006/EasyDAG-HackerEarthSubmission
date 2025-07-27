@@ -6,7 +6,7 @@ class UserManager(BaseUserManager):
     def create_user(self, wallet_address, **extra_fields):
         if not wallet_address:
             raise ValueError("Users must have a wallet address")
-        user = self.model(walletAddress=wallet_address, **extra_fields)
+        user = self.model(wallet_address=wallet_address, **extra_fields)
         user.set_unusable_password()
         user.save(using=self._db)
         return user

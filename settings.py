@@ -150,3 +150,5 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=180),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'

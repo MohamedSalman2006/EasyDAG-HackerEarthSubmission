@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
+import secrets
 from core.models import User, Conversation
 from eth_account.messages import encode_defunct
 from eth_account import Account
@@ -37,14 +38,18 @@ def community_page(request):
 def market_page(request):
     return render(request, "market.html")
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_login_nonce(request):
+    nonce = secrets.token_hex(32)
+    request.session['login_nonce'] = nonce
+    return Response({'nonce': nonce})
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def wallet_login(request):
     try:
         data = json.loads(request.body)
-
-        EXPECTED_MESSAGE = "Login to EasyDAG!"
-
         wallet_address = data['wallet_address']
         signature=data['signature']
         message=data['message']
@@ -54,11 +59,17 @@ def wallet_login(request):
         print("Message:", message)
         print("Signature:", signature)
 
-        if message != EXPECTED_MESSAGE:
-            print("Message mismatch")
-            return Response({"error": "Unexpected message"}, status=400)
+        nonce = request.session.get('login_nonce')
 
-        encoded_message = encode_defunct(text=message)
+        if not nonce:
+            return Response({"error": "Nonce not found in session. Please request a new one."}, status=400)
+
+
+        if message != nonce:
+            print("Message mismatch")
+            return Response({"error": "Invalid nonce signed"}, status=400)
+
+        encoded_message = encode_defunct(hexstr="0x" + message)
         recovered_address = Account.recover_message(encoded_message, signature=signature)
 
         print("Recovered address:", recovered_address)
@@ -66,6 +77,8 @@ def wallet_login(request):
 
         if recovered_address.lower() != wallet_address.lower():
             return Response({"error": "Signature mismatch"}, status=401)
+        
+        request.session.pop('login_nonce', None)
         
         user, _ = User.objects.get_or_create(wallet_address=wallet_address)
         refresh = RefreshToken.for_user(user)

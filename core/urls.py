@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import login_page, wallet_login, home, contract_page, market_page, community_page, smart_contract_api, new_conversation
+from .views import login_page, wallet_login, get_login_nonce, home, contract_page, market_page, community_page, smart_contract_api, new_conversation
 from .views import PostListCreateAPIView, PostVoteAPIView
 
 urlpatterns = [
     path('', login_page),  
     path('login/', login_page, name='login-page'),
     path('api/login/', wallet_login, name='wallet-login'),
+    path('api/get-nonce/', get_login_nonce, name='get-nonce'),
     path('home/', home, name='home'),
     path('contract/', contract_page, name='contract-page'),
     path('market/', market_page, name='market-page'),

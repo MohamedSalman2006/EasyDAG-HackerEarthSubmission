@@ -260,6 +260,7 @@
             
             if (prompt) {
                 sendMessage(prompt, 'protocol_builder');
+                document.getElementById('gemini-response').scrollIntoView({ behavior: "smooth" });
             }
         });
    
@@ -352,6 +353,7 @@
                 remixDeployBtn.href = `https://remix.ethereum.org/#code=${base64Code}`;
                 
                 deployModal.style.display = 'block';
+                deployModal.scrollIntoView({ behavior: "smooth", block: "center" });
             }
         }
 
@@ -361,7 +363,8 @@
 
         closeModalBtn.addEventListener('click', closeDeployModal);
         
-        copyCodeBtn.addEventListener('click', function() {
+        
+        closeModalBtn.addEventListener('click', function() {
             navigator.clipboard.writeText(generatedContractCode).then(() => {
                 alert('Contract code copied to clipboard!');
             }, () => {

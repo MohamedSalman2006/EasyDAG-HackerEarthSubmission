@@ -14,29 +14,30 @@
       <main class="main-content" style="justify-content: center; align-items: center; margin: 0; min-height: 80vh;">
       <div class="glass-card">
           <div class="chart-placeholder">
-            <script async src="https://static.coinstats.app/widgets/coin-chart-widget.js"></script>
-            <coin-stats-chart-widget
-              type="large"
-              coin-id="8Zj3K1MnVWTVXh27xM9ARDoGwcBmCr5S4NDYYfix4Egd_solana"
-              width="650"
-              chart-height="300"
-              currency="USD"
-              locale="en"
-              bg-color="#1C1B1B"
-              text-color="#FFFFFF"
-              status-up-color="#74D492"
-              status-down-color="#FE4747"
-              buttons-color="#1C1B1B"
-              chart-color="#FFA959"
-              chart-gradient-from="rgba(255,255,255,0.07)"
-              chart-gradient-to="rgba(0,0,0,0)"
-              chart-label-background="#000000"
-              candle-grids-color="rgba(255,255,255,0.1)"
-              border-color="rgba(255,255,255,0.15)"
-              font="Roboto, Arial, Helvetica"
-              btc-color="#6DD400"
-              eth-color="#67B5FF">
-            </coin-stats-chart-widget>
+          <script async src="https://static.coinstats.app/widgets/coin-chart-widget.js"></script>
+          <coin-stats-chart-widget 
+          type="large" 
+          coin-id="bitcoin" 
+          width="650" 
+          chart-height="300" 
+          currency="USD" 
+          locale="en" 
+          bg-color="#1C1B1B" 
+          text-color="#FFFFFF" 
+          status-up-color="#74D492" 
+          status-down-color="#FE4747"
+          buttons-color="#1C1B1B" 
+          chart-color="#FFA959" 
+          chart-gradient-from="rgba(255,255,255,0.07)" 
+          chart-gradient-to="rgba(0,0,0,0)" 
+          chart-label-background="#000000" 
+          candle-grids-color="rgba(255,255,255,0.1)" 
+          border-color="rgba(255,255,255,0.15)" 
+          font="Outfit, Arial, Helvetica" 
+          btc-color="#6DD400" 
+          eth-color="#67B5FF">
+            
+          </coin-stats-chart-widget>
           </div>
         </div>
         <div class="main-info">
@@ -50,7 +51,7 @@
           <br>
           <button class="trade-btn" onclick=window.location.href="{% url 'contract-page' %}">Generate Contract</button>
         </div>
-      <div class="profile-label home-profile-label" style="position: absolute; left: 5vw; top: calc(50vh + 250px); bottom: unset; font-size: 2.6rem; z-index: 100; pointer-events: none;"></div>
+      <div class="profile-label home-profile-label" style="position: absolute; left: 5vw; right: 5vw; width: auto; top: calc(50vh + 250px); bottom: unset; font-size: 2.6rem; z-index: 100; pointer-events: none;"></div>
     </section>
     <section class="profile-section">
         <div class="profile-main">
@@ -103,7 +104,7 @@
     </section>
   </div>
 
-  <section class="contracts-section" style="min-height: 100vh; width: 100vw; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: url('bg1.jpeg') center center/cover no-repeat fixed; padding: 6vw 2vw 0 2vw; position: relative;">
+  <section class="contracts-section" style="min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 6vw 2vw 0 2vw; position: relative;">
     <h1 style="font-size: 2.8rem; font-weight: 700; color: #fff; margin-bottom: 2vw; letter-spacing: 1.2px; text-shadow: 0 2px 16px #000a; font-family: 'Poppins', 'Inter', Arial, sans-serif; text-align: center; margin: 0 auto;">Popular Contracts</h1>
     <div class="contracts-carousel" style="display: flex; gap: 1vw; justify-content: center; align-items: flex-start; width: 96vw; max-width: 1200px; margin-bottom: 2vw; margin-left: auto; margin-right: auto; padding-left: 2vw; padding-right: 2vw;">
       <div id="contractsCarouselInner" style="display: flex; transition: transform 0.5s cubic-bezier(.77,0,.18,1); width: 100%; justify-content: center; max-width: 1140px; padding: 0 3vw 0 1vw;">
@@ -162,7 +163,7 @@
   </section>
 
   
-  <section class="about-section" style="min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; padding: 0 2vw; background: none;">
+  <section class="about-section" style="min-height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; padding: 0 2vw; background: none;">
     <div class="about-card" style="background: rgba(255,255,255,0.05); border-radius: 32px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); padding: 2.8rem 3.2rem; text-align: left; max-width: 900px; width: 100%; min-height: 420px; backdrop-filter: blur(12px); border: 2px solid rgba(255,255,255,0.08);">
       <h2 class="about-title">Our Mission</h2>
 
@@ -187,8 +188,6 @@
         <div class="about-line" style="flex: 1; height: 2px; background: rgba(255,255,255,0.18);"></div>
       </div>
       
-    </div>
-  </section>
   </section>
 {% endblock %}
 
@@ -230,7 +229,9 @@
                 card.classList.add('expanded');
                 if (card.querySelector('.code-display-box')) return;
                 try {
-                    const response = await fetch("{% static 'contracts/' %}" + contractFileName);
+                    const contractName = contractFileName.replace('.sol', '');
+                    const response = await fetch(`/api/get-template/${contractName}/`);
+
                     if (!response.ok) return;
                     const contractCode = await response.text();
                     const codeBox = document.createElement('div');
@@ -243,7 +244,7 @@
             });
 
             card.addEventListener('mouseleave', function() {
-                card.classList.remove('expanded');
+                card.classList.add('expanded');
                 const codeBox = card.querySelector('.code-display-box');
                 if (codeBox) {
                     codeBox.remove();

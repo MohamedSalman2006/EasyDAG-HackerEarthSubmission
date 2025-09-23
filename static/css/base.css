@@ -2,9 +2,11 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: 'Poppins', Arial, sans-serif;
-  background: url('../images/bg1.jpg') center center/cover no-repeat fixed;
-  color: #fff;
-  overflow-x: hidden;
+  background-image: linear-gradient(to bottom, #0D1B2A, #1B263B);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  color: #E0E1DD;
 }
 
 html {
@@ -19,10 +21,10 @@ overflow-y: scroll;
     display: flex;
     align-items: center;
     gap: 2rem;
-    padding: 1.2rem 2rem;
-    background: #1a1a1a;
+    background-image: linear-gradient(to right, #0d0d0d, #142537);
     border-bottom: 1px solid #333;
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 100;
 }
 .navbar-center {
@@ -36,7 +38,7 @@ overflow-y: scroll;
     text-decoration: none;
     font-size: 1.22rem;
     font-weight: 500;
-    padding: 0.5rem 1.6rem;
+    padding: 0.5rem 0;
     border-radius: 12px;
     transition: background 0.2s, color 0.2s;
 }
@@ -113,12 +115,14 @@ overflow-y: scroll;
 
 .navbar-left { display: none; }
 .profile-label {
-    position: absolute;
     left: 3vw;
     bottom: 3vw;
     font-size: 2.6rem;
     font-weight: 700;
     color: #fff;
+    width: 94vw; 
+    word-wrap: break-word;
+    line-height: 1.2; 
     opacity: 1;
     text-shadow: 2px 4px 0 #000a, 0 2px 16px #000a;
     z-index: 100;

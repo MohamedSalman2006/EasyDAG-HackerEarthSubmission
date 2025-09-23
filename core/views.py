@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -21,7 +22,7 @@ from .serializers import PostSerializer
 from .agent_service import run_protocol_agent, run_simple_chat, run_simple_chat_stateless, run_protocol_agent_stateless
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 def login_page(request):
     return render(request, "index.html")
@@ -185,3 +186,24 @@ class PostVoteAPIView(APIView):
             defaults={'vote_type': vote_type}
         )
         return Response(status=status.HTTP_200_OK)
+    
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_contract_template(request, contract_name):
+    """
+    Securely serves a specified smart contract template from the filesystem.
+    """
+    valid_contracts = ['Staking', 'Token', 'Vesting']
+
+    formatted_name = contract_name.capitalize()
+
+    if formatted_name not in valid_contracts:
+        raise Http404("Contract template not found.")
+    
+    template_path = settings.BASE_DIR/'protocol_template'/f'{formatted_name}.sol'
+
+    if template_path.is_file():
+        content = template_path.read_text()
+        return HttpResponse(content, content_type='text/plain')
+    else:
+        raise Http404("Contract template file does not exist")

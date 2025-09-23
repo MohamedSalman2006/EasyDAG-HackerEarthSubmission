@@ -200,7 +200,7 @@ def get_contract_template(request, contract_name):
     if formatted_name not in valid_contracts:
         raise Http404("Contract template not found.")
     
-    template_path = settings.BASE_DIR/'protocol_template'/f'{formatted_name}.sol'
+    template_path = settings.BASE_DIR/'protocol_templates'/f'{formatted_name}.sol'
 
     if template_path.is_file():
         content = template_path.read_text()

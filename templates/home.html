@@ -47,7 +47,7 @@
             <br><br>
             Generate, modify, and understand secure contracts using simple conversation or our guided Protocol Builder.
           </div>
-          <button class="trade-btn" onclick=window.location.href="{% url 'market-page' %}">Buy BDAG</button>
+          <button class="trade-btn" onclick=window.location.href="{% url 'market-page' %}">Buy BTC</button>
           <br>
           <button class="trade-btn" onclick=window.location.href="{% url 'contract-page' %}">Generate Contract</button>
         </div>
@@ -179,9 +179,7 @@
       <p style="font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">
           <strong>EasyDAG</strong> was born from a simple idea: what if anyone could build on the blockchain just by having a conversation? Our mission is to break down the barriers to entry. We've created an intelligent, AI-powered platform that translates natural language and simple inputs into secure, robust smart contracts.
       </p>
-      <p style="font-size: 1.1rem; line-height: 1.7; opacity: 0.9;">
-          Built for the BlockDAG Hackathon, our goal is to empower the next wave of creators by building tools that are not only powerful but also intuitive and accessible to everyone.
-      </p>
+      
       <div class="about-divider" style="display: flex; align-items: center; justify-content: center; margin: 0.5rem 0 2.5rem 0;">
         <div class="about-line" style="flex: 1; height: 2px; background: rgba(255,255,255,0.18);"></div>
         <div style="width: 10px; height: 10px; border-radius: 50%; background: #bfc7d5; margin: 0 0.5rem;"></div>
@@ -244,7 +242,7 @@
             });
 
             card.addEventListener('mouseleave', function() {
-                card.classList.add('expanded');
+                card.classList.remove('expanded');
                 const codeBox = card.querySelector('.code-display-box');
                 if (codeBox) {
                     codeBox.remove();
